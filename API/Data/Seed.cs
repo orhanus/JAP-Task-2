@@ -12,7 +12,7 @@ namespace API.Data
         {
             if(await context.Shows.AnyAsync()) return;
 
-            var showData = await System.IO.File.ReadAllTextAsync("Data/ShowSeedData");
+            var showData = await System.IO.File.ReadAllTextAsync("Data/ShowSeedData.json");
             var shows = JsonSerializer.Deserialize<List<Show>>(showData);
 
             foreach(var show in shows)
