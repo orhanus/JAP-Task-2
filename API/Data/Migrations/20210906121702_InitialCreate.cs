@@ -62,7 +62,7 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rating",
+                name: "Ratings",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -72,9 +72,9 @@ namespace API.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rating", x => x.Id);
+                    table.PrimaryKey("PK_Ratings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Rating_Shows_ShowId",
+                        name: "FK_Ratings_Shows_ShowId",
                         column: x => x.ShowId,
                         principalTable: "Shows",
                         principalColumn: "Id",
@@ -87,8 +87,8 @@ namespace API.Data.Migrations
                 column: "ShowsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rating_ShowId",
-                table: "Rating",
+                name: "IX_Ratings_ShowId",
+                table: "Ratings",
                 column: "ShowId");
         }
 
@@ -98,7 +98,7 @@ namespace API.Data.Migrations
                 name: "ActorShow");
 
             migrationBuilder.DropTable(
-                name: "Rating");
+                name: "Ratings");
 
             migrationBuilder.DropTable(
                 name: "Actors");

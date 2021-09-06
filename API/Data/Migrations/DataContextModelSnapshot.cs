@@ -46,7 +46,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("ShowId");
 
-                    b.ToTable("Rating");
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("API.Entities.Show", b =>

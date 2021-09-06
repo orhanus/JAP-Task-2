@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace API.Entities
 {
+    [Table("Ratings")]
     public class Rating
     {
         public int Id { get; set; }
