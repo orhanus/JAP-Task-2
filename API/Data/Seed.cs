@@ -14,6 +14,7 @@ namespace API.Data
 
             var showData = await System.IO.File.ReadAllTextAsync("Data/ShowSeedData.json");
             var shows = JsonSerializer.Deserialize<List<Show>>(showData);
+            
 
             foreach(var show in shows)
             {
