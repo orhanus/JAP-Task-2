@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -11,8 +13,10 @@ namespace API.Data
     public class ShowRepository : IShowRepository
     {
         private readonly DataContext _context;
-        public ShowRepository(DataContext context)
+        private readonly IMapper _mapper;
+        public ShowRepository(DataContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
@@ -28,7 +32,12 @@ namespace API.Data
 
         public async Task<ICollection<Show>> GetShowsAsync(string showType)
         {
-            return await _context.Shows.Where(x => x.ShowType == showType).ToListAsync();
+            var query = _context.Shows.AsQueryable();
+            query = query.Include(a => a.Actors).Include(r => r.Ratings);
+            if (showType != "all")
+                query = query.Where(x => x.ShowType == showType);
+
+            return await query.OrderByDescending(x => x.Ratings.Average(r => r.Score)).ToListAsync();
         }
 
         public async Task<bool> SaveAllAsync()

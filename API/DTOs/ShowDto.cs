@@ -12,7 +12,7 @@ namespace API.DTOs
         public DateTime ReleaseDate { get; set; }
         public string CoverImageUrl { get; set; }
         public string ShowType { get; set; }
-        public ICollection<Actor> Actors { get; set; }
+        public ICollection<ActorDto> Actors { get; set; }
         public double AverageRating { get; set; }
     }
 }
