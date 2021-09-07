@@ -12,5 +12,6 @@ namespace API.Interfaces
         Task<Actor> GetActorByNameAsync(string name);
         Task<ICollection<Actor>> GetActorsAsync();
         Task<bool> SaveAllAsync();
+        Task<double> GetAverageRatingAsync(int id);
     }
 }

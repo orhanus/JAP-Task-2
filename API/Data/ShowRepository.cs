@@ -49,5 +49,10 @@ namespace API.Data
         {
             _context.Entry(show).State = EntityState.Modified;
         }
+
+        public async Task<double> GetAverageRatingAsync(int id)
+        {
+            return await _context.Ratings.Where(x => x.ShowId == id).AverageAsync(r => r.Score);
+        }
     }
 }
