@@ -3,7 +3,7 @@
         "Title": "Star Wars: A New Hope",
         "Description": "After Princess Leia, the leader of the Rebel Alliance, is held hostage by Darth Vader, Luke and Han Solo must free her and destroy the powerful weapon created by the Galactic Empire.",
         "ReleaseDate": "1977-05-17",
-        "CoverImageUrl": "https://musicimage.xboxlive.com/catalog/video.movie.8D6KGWZXZDZ3/image?locale=en-us&mode=crop&purposes=BoxArt&q=90&h=225&w=150&format=jpg",
+        "CoverImageUrl": "https://picsum.photos/200",
         "ShowType": "movie",
         "Actors": [
             {
@@ -29,7 +29,7 @@
         "Title": "Star Wars: The Phantom Menace",
         "Description": "Jedi Knights Qui-Gon Jinn and Obi-Wan Kenobi set out to stop the Trade Federation from invading Naboo. While travelling, they come across a gifted boy, Anakin, and learn that the Sith have returned.",
         "ReleaseDate": "1999-05-19",
-        "CoverImageUrl": "https://musicimage.xboxlive.com/catalog/video.movie.8D6KGWZZ55J8/image?locale=en-us&mode=crop&purposes=BoxArt&q=90&h=225&w=150&format=jpg",
+        "CoverImageUrl": "https://picsum.photos/200",
         "ShowType": "movie",
         "Actors": [
             {
@@ -55,7 +55,7 @@
         "Title": "Star Wars: The Last Jedi",
         "Description": "Rey seeks to learn the ways of the Jedi under Luke Skywalker, its remaining member, to reinvigorate the Resistance's war against the First Order.",
         "ReleaseDate": "2017-12-15",
-        "CoverImageUrl": "https://musicimage.xboxlive.com/catalog/video.movie.8D6KGWXN22PR/image?locale=en-us&mode=crop&purposes=BoxArt&q=90&h=225&w=150&format=jpg",
+        "CoverImageUrl": "https://picsum.photos/200",
         "ShowType": "movie",
         "Actors": [
             {
@@ -78,7 +78,7 @@
         "Title": "Lord Of The Rings: Fellowship Of Ring",
         "Description": "A young hobbit, Frodo, who has found the One Ring that belongs to the Dark Lord Sauron, begins his journey with eight companions to Mount Doom, the only place where it can be destroyed.",
         "ReleaseDate": "2001-12-19",
-        "CoverImageUrl": "https://musicimage.xboxlive.com/catalog/video.movie.8D6KGWZL5TLZ/image?locale=en-gb&mode=crop&purposes=BoxArt&q=90&h=225&w=150&format=jpg",
+        "CoverImageUrl": "https://picsum.photos/200",
         "ShowType": "movie",
         "Actors": [
             {
@@ -107,7 +107,7 @@
         "Title": "The Hobbit: An Unexpected Journey",
         "Description": "Bilbo Baggins, a hobbit, is persuaded into accompanying a wizard and a group of dwarves on a journey to reclaim the city of Erebor and all its riches from the dragon Smaug.",
         "ReleaseDate": "2012-12-13",
-        "CoverImageUrl": "https://musicimage.xboxlive.com/catalog/video.movie.8D6KGWZL59HB/image?locale=en-au&mode=crop&purposes=BoxArt&q=90&h=225&w=150&format=jpg",
+        "CoverImageUrl": "https://picsum.photos/200",
         "ShowType": "movie",
         "Actors": [
             {
@@ -133,7 +133,7 @@
         "Title": "Brooklyn Nine-Nine",
         "Description": "Ray Holt, an eccentric commanding officer, and his diverse and quirky team of odd detectives solve crimes in Brooklyn, New York City.",
         "ReleaseDate": "2013-09-17",
-        "CoverImageUrl": "https://musicimage.xboxlive.com/catalog/video.tvseason.8D6KGWXN91QP/image?locale=de-de&mode=crop&purposes=BoxArt&q=90&h=225&w=150&format=jpg",
+        "CoverImageUrl": "https://picsum.photos/200",
         "ShowType": "show",
         "Actors": [
             {
@@ -162,7 +162,7 @@
         "Title": "Rick and Morty",
         "Description": "After having been missing for nearly 20 years, Rick Sanchez suddenly arrives at daughter Beth's doorstep to move in with her and her family.",
         "ReleaseDate": "2013-12-02",
-        "CoverImageUrl": "https://musicimage.xboxlive.com/catalog/video.tvseason.8D6KGWXN85RB/image?locale=en-us&mode=crop&purposes=BoxArt&q=90&h=300&w=200&format=jpg",
+        "CoverImageUrl": "https://picsum.photos/200",
         "ShowType": "show",
         "Actors": [
             {
@@ -188,7 +188,7 @@
         "Title": "The Walking Dead",
         "Description": "In the wake of a zombie apocalypse, various survivors struggle to stay alive. As they search for safety and evade the undead, they are forced to grapple with rival groups and difficult choices.",
         "ReleaseDate": "2010-10-31",
-        "CoverImageUrl": "https://musicimage.xboxlive.com/catalog/video.tvseason.8D6KGWXN90WK/image?locale=en-us&mode=crop&purposes=BoxArt&q=90&h=300&w=200&format=jpg",
+        "CoverImageUrl": "https://picsum.photos/200",
         "ShowType": "show",
         "Actors": [
             {
@@ -214,7 +214,7 @@
         "Title": "Star Trek: Discovery",
         "Description": "Michael Burnham and her companions in the USS Discovery travel into the far reaches of space to meet new lifeforms and discover new planets.",
         "ReleaseDate": "2017-09-24",
-        "CoverImageUrl": "https://musicimage.xboxlive.com/catalog/video.tvseason.8D6KGWXN8KT4/image?locale=en-us&mode=crop&purposes=BoxArt&q=90&h=300&w=200&format=jpg",
+        "CoverImageUrl": "https://picsum.photos/200",
         "ShowType": "show",
         "Actors": [
             {
@@ -240,7 +240,7 @@
         "Title": "Yellowstone",
         "Description": "A sixth-generation homesteader and devoted father, John Dutton controls the largest contiguous ranch in the United States. He operates in a corrupt world where politicians are compromised by influential oil and lumber corporations and land grabs make developers billions.",
         "ReleaseDate": "2018-06-20",
-        "CoverImageUrl": "https://musicimage.xboxlive.com/catalog/video.tvseason.8D6KGWXN6RB1/image?locale=en-us&mode=crop&purposes=BoxArt&q=90&h=300&w=200&format=jpg",
+        "CoverImageUrl": "https://picsum.photos/200",
         "ShowType": "show",
         "Actors": [
             {

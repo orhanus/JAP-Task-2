@@ -6,17 +6,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TitleComponent } from './title/title.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ShowListComponent } from './shows/show-list/show-list.component';
+import { ShowCardComponent } from './shows/show-card/show-card.component';
+import { EllipsisModule } from 'ngx-ellipsis';
+import { RatingModule } from 'ngx-bootstrap/rating';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TitleComponent
+    TitleComponent,
+    ShowListComponent,
+    ShowCardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    EllipsisModule,
+    RatingModule.forRoot(),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -6,4 +6,5 @@ export interface Show {
     coverImageUrl: string;
     showType: string;
     actors: string[];
+    averageRating: number;
 }

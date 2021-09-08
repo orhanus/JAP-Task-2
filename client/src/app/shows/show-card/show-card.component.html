@@ -1,0 +1,12 @@
+<div class="card justify-content-center bg-dark">
+  <div class="card-img-wrapper h-50">
+    <img class="card-img-top h-100 w-100" src="{{show.coverImageUrl}}" alt="{{show.title}}">
+  </div>
+  <div class="card-body p-2">
+    <h5 class="card-title">{{show.title}}</h5>
+    <div class="description w-100 h-50" ellipsis>{{show.description}}</div>
+    <rating [(ngModel)]="rate" [max]="max" [readonly]="isReadonly"
+        (onHover)="hoveringOver($event)" (onLeave)="resetStar()"
+        [titles]="['one','two','three']"></rating>
+  </div>
+</div>

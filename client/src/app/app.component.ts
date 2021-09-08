@@ -11,17 +11,9 @@ export class AppComponent implements OnInit {
   title = 'Rotten Potatoes';
   shows: Show[];
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
   ngOnInit() {
-    this.getShows();
   }
 
-  getShows() {
-    this.http.get<Show[]>('https://localhost:5001/api/shows/all').subscribe(response => {
-      console.log(response);
-      this.shows = response;
-    }, error => {
-      console.log(error);
-    });
-  }
 }
+
