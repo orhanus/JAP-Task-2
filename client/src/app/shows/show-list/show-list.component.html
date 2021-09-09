@@ -1,6 +1,8 @@
 <div class="container-fluid mt-2 row justify-content-center">
     <div class="row justify-content-center">
-        <div class="col-sm-6 text-light justify-content-center p-0" *ngFor="let show of shows"><app-show-card [show]="show"></app-show-card></div>
+        <div class="col-sm-6 text-light justify-content-center p-0" *ngFor="let show of shows">
+            <app-show-card [show]="show" (showRated)="rateShow($event)"></app-show-card>
+        </div>
     </div>
     
 </div>

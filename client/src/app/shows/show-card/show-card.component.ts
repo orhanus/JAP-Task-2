@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Show } from 'src/app/_models/show';
+import { ShowsService } from 'src/app/_services/shows.service';
 
 @Component({
   selector: 'app-show-card',
@@ -8,11 +9,13 @@ import { Show } from 'src/app/_models/show';
 })
 export class ShowCardComponent implements OnInit {
   @Input() show: Show;
+  @Output() showRated = new EventEmitter()
+
   max = 10;
   rate = 7;
   isReadonly = false;
   overStar: number | undefined;
-  constructor() { }
+  constructor(private showService: ShowsService) { }
 
   ngOnInit(): void {
     this.rate = this.show.averageRating;
@@ -27,7 +30,8 @@ export class ShowCardComponent implements OnInit {
     this.overStar = void 0;
   }
   onClick() {
-    console.log(this.overStar);
+    this.showRated.emit({showId: this.show.id, score: this.overStar});
+    console.log("emited");
   }
 
 }
