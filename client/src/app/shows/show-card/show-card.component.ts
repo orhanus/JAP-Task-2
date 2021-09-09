@@ -31,7 +31,6 @@ export class ShowCardComponent implements OnInit {
   }
   onClick() {
     this.showRated.emit({showId: this.show.id, score: this.overStar});
-    console.log("emited");
   }
 
 }

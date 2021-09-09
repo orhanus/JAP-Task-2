@@ -12,6 +12,7 @@ import { EllipsisModule } from 'ngx-ellipsis';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { FormsModule } from '@angular/forms';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,10 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     EllipsisModule,
     RatingModule.forRoot(),
     FormsModule,
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

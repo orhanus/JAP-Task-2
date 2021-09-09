@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { Rating } from 'src/app/_models/rating';
 import { Show } from 'src/app/_models/show';
 import { ShowsService } from 'src/app/_services/shows.service';
@@ -11,7 +12,7 @@ import { ShowsService } from 'src/app/_services/shows.service';
 export class ShowListComponent implements OnInit {
   shows: Show[];
 
-  constructor(private showsService: ShowsService) { }
+  constructor(private showsService: ShowsService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadShows('movie');
@@ -28,9 +29,10 @@ export class ShowListComponent implements OnInit {
   rateShow(rating: any) {
     this.showsService.addRating(rating).subscribe(response => {
       this.shows = response;
-      console.log(response);
+      this.toastr.success("Rating was a success", "Success");
     }, error => {
       console.log(error);
+      this.toastr.error(error);
     })
   }
   onClick(showType: string)
