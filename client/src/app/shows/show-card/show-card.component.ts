@@ -12,7 +12,6 @@ export class ShowCardComponent implements OnInit {
   rate = 7;
   isReadonly = false;
   overStar: number | undefined;
-  percent = 0;
   constructor() { }
 
   ngOnInit(): void {
@@ -22,11 +21,13 @@ export class ShowCardComponent implements OnInit {
  
   hoveringOver(value: number): void {
     this.overStar = value;
-    this.percent = (value / this.max) * 100;
   }
  
   resetStar(): void {
     this.overStar = void 0;
+  }
+  onClick() {
+    console.log(this.overStar);
   }
 
 }

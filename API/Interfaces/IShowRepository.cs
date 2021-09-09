@@ -8,10 +8,11 @@ namespace API.Interfaces
     public interface IShowRepository
     {
         void Update(Show show);
-        Task<ICollection<Show>> GetShowsAsync(string showType);
+        Task<ICollection<ShowDto>> GetShowsAsync(string showType);
         Task<Actor> GetActorByNameAsync(string name);
         Task<ICollection<Actor>> GetActorsAsync();
         Task<bool> SaveAllAsync();
         Task<double> GetAverageRatingAsync(int id);
+        Task<Show> GetShowByIdAsync(int showId);
     }
 }

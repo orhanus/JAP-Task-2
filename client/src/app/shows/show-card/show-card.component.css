@@ -4,10 +4,11 @@
 .description{
     font-size: 12px;
 }
-.rating {
-    text-align: center;
+.rating-container {
+    width: 95%;
     position: absolute;
-    bottom: 1px;
+    bottom: 5px;
+    text-align: center;
 }
 .card {
     width: 300px;
