@@ -11,6 +11,7 @@ import { ShowCardComponent } from './shows/show-card/show-card.component';
 import { EllipsisModule } from 'ngx-ellipsis';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { FormsModule } from '@angular/forms';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     EllipsisModule,
     RatingModule.forRoot(),
-    FormsModule
+    FormsModule,
+    TabsModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

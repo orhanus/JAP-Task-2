@@ -14,11 +14,11 @@ export class ShowListComponent implements OnInit {
   constructor(private showsService: ShowsService) { }
 
   ngOnInit(): void {
-    this.loadShows();
+    this.loadShows('movie');
   }
 
-  loadShows(){
-    this.showsService.getShows('all').subscribe(response => {
+  loadShows(showType: string){
+    this.showsService.getShows(showType).subscribe(response => {
       this.shows = response;
     }, error => {
       console.log(error);
@@ -26,13 +26,16 @@ export class ShowListComponent implements OnInit {
   }
 
   rateShow(rating: any) {
-    console.log("parent");
-    console.log(rating);
     this.showsService.addRating(rating).subscribe(response => {
       this.shows = response;
+      console.log(response);
     }, error => {
       console.log(error);
     })
+  }
+  onClick(showType: string)
+  {
+    this.loadShows(showType);
   }
 
 }
