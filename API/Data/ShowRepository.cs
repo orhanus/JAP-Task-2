@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -32,23 +33,26 @@ namespace API.Data
         }
 
 
-        public async Task<ICollection<ShowDto>> GetShowsAsync(string showType)
+        public async Task<PagedList<ShowDto>> GetShowsAsync(ShowParams showParams, string showType)
         {
-            var query = _context.Shows.AsQueryable();
-            //query = query.Include(a => a.Actors).Include(r => r.Ratings);
+            var query = _context.Shows.AsQueryable().AsNoTracking()
+                .Select(x => new ShowDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Description = x.Description,
+                    ReleaseDate = x.ReleaseDate,
+                    CoverImageUrl = x.CoverImageUrl,
+                    ShowType = x.ShowType,
+                    Actors = x.Actors.Select(actor => new ActorDto { NameLastname = actor.NameLastname }).ToList(),
+                    AverageRating = x.Ratings.Average(r => r.Score)
+                });
             if (showType != "all")
                 query = query.Where(x => x.ShowType == showType);
 
-            return await query.Select(x => new ShowDto{
-                Id = x.Id,
-                Title = x.Title,
-                Description = x.Description,
-                ReleaseDate = x.ReleaseDate,
-                CoverImageUrl = x.CoverImageUrl,
-                ShowType = x.ShowType,
-                Actors = x.Actors.Select(actor => new ActorDto{ NameLastname = actor.NameLastname}).ToList(),
-                AverageRating = x.Ratings.Average(r => r.Score)
-            }).OrderByDescending(x => x.AverageRating).ToListAsync();
+            return await PagedList<ShowDto>.CreateAsync(
+                query.OrderByDescending(r => r.AverageRating), showParams.PageNumber, showParams.PageSize
+            );
         }
 
         public async Task<bool> SaveAllAsync()

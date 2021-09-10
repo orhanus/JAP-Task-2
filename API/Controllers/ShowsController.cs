@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -19,16 +21,15 @@ namespace API.Controllers
         }
 
         [HttpGet("{showType}", Name = "GetShows")]
-        public async Task<ActionResult<ICollection<ShowDto>>> GetShows(string showType)
+        public async Task<ActionResult<ICollection<ShowDto>>> GetShows([FromQuery]ShowParams showParams, string showType)
         {
-            var shows = await _showRepository.GetShowsAsync(showType);
-            var showsToReturn = _mapper.Map<ICollection<ShowDto>>(shows);
-
-            return Ok(showsToReturn);
+            var shows = await _showRepository.GetShowsAsync(showParams, showType);
+            Response.AddPaginationHeader(shows.CurrentPage, shows.PageSize, shows.TotalCount, shows.TotalPages);
+            return Ok(shows);
         }
 
         [HttpPost("add-rating")]
-        public async Task<ActionResult<ICollection<ShowDto>>> AddRating(RatingDto rating)
+        public async Task<ActionResult> AddRating(RatingDto rating)
         {
             var show = await _showRepository.GetShowByIdAsync(rating.ShowId);
 
@@ -38,7 +39,7 @@ namespace API.Controllers
 
             if(await _showRepository.SaveAllAsync())
             {
-                return CreatedAtRoute("GetShows", new {showType = show.ShowType}, await _showRepository.GetShowsAsync(show.ShowType));
+                return Ok();
             }
             return BadRequest("Unable to add rating");
         }

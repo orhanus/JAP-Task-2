@@ -21,7 +21,7 @@
 </nav>
 <div *ngIf="shows" class="container-fluid mt-2 row">
     <div class="row">
-        <div class="d-flex justify-content-center col-sm-6 text-light p-0 mt-5 mb-5" *ngFor="let show of shows">
+        <div class="d-flex justify-content-center col-sm-4 text-light p-0 mt-5 mb-5" *ngFor="let show of shows">
             <app-show-card [show]="show" (showRated)="rateShow($event)"></app-show-card>
         </div>
     </div>
