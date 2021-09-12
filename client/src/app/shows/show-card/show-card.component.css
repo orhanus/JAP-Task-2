@@ -11,8 +11,8 @@
     text-align: center;
 }
 .card {
-    width: 300px;
-    height: 400px;
+    width: 250px;
+    height: 350px;
     transform: scale(1.0,1.0);
     transition-duration: 500ms;
     transition-timing-function: ease-out;
