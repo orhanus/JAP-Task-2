@@ -11,10 +11,10 @@
               class="form-control"
               placeholder="Search"
               aria-label="Search"
+              name="searchParameters"
+              [(ngModel)]="searchParameters"
+              (ngModelChange)="search()"
             />
-            <button class="btn btn-outline-danger" type="button">
-              Search
-            </button>
           </form>
     </div>
     
@@ -25,5 +25,7 @@
             <app-show-card [show]="show" (showRated)="rateShow($event)"></app-show-card>
         </div>
     </div>
-    
+    <div *ngIf="pagination?.totalPages > pagination?.currentPage">
+        <a class="text-light" (click)="viewMore()" style="cursor: pointer;">View more results</a>
+    </div>
 </div>

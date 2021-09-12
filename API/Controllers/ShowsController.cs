@@ -7,6 +7,7 @@ using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Controllers
 {
@@ -21,17 +22,19 @@ namespace API.Controllers
         }
 
         [HttpGet("{showType}", Name = "GetShows")]
-        public async Task<ActionResult<ICollection<ShowDto>>> GetShows([FromQuery]ShowParams showParams, string showType)
-        {
-            var shows = await _showRepository.GetShowsAsync(showParams, showType);
+        public async Task<ActionResult<ICollection<ShowDto>>> GetShows(
+            [FromQuery]ShowParams showParams, 
+            [RegularExpression(@"^(all|movie|show)$", ErrorMessage = "Category does not exist")]string showType
+            ) {
+            PagedList<ShowDto> shows = await _showRepository.GetShowsAsync(showParams, showType);
             Response.AddPaginationHeader(shows.CurrentPage, shows.PageSize, shows.TotalCount, shows.TotalPages);
             return Ok(shows);
         }
 
-        [HttpPost("add-rating")]
-        public async Task<ActionResult> AddRating(RatingDto rating)
+        [HttpPost("{id}/rate")]
+        public async Task<ActionResult> AddRating(int id, RatingDto rating)
         {
-            var show = await _showRepository.GetShowByIdAsync(rating.ShowId);
+            Show show = await _showRepository.GetShowByIdAsync(id);
 
             if(show == null) return BadRequest("Show does not exist");
 

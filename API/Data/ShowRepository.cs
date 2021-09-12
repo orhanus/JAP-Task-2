@@ -35,7 +35,7 @@ namespace API.Data
 
         public async Task<PagedList<ShowDto>> GetShowsAsync(ShowParams showParams, string showType)
         {
-            var query = _context.Shows.AsQueryable().AsNoTracking()
+            IQueryable<ShowDto> query = _context.Shows.AsQueryable().AsNoTracking()
                 .Select(x => new ShowDto
                 {
                     Id = x.Id,
@@ -49,6 +49,10 @@ namespace API.Data
                 });
             if (showType != "all")
                 query = query.Where(x => x.ShowType == showType);
+
+            if(showParams.SearchParams != "null")
+                query = query.Where(obj => obj.Title.ToLower().Contains(showParams.SearchParams.ToLower()) 
+                || obj.Description.ToLower().Contains(showParams.SearchParams.ToLower()));
 
             return await PagedList<ShowDto>.CreateAsync(
                 query.OrderByDescending(r => r.AverageRating), showParams.PageNumber, showParams.PageSize

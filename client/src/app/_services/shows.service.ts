@@ -14,24 +14,25 @@ export class ShowsService {
 
   constructor(private http: HttpClient) { }
 
-  getShows(showType: string, page?: number, itemsPerPage?: number){
+  getShows(showType: string, page?: number, itemsPerPage?: number, searchParameters?: string){
     let params = new HttpParams();
 
     if(page !== null && itemsPerPage !== null) {
       params = params.append('pageNumber', page.toString());
       params = params.append('pageSize', itemsPerPage.toString());
+      params = params.append('searchParams', searchParameters === "" ? null : searchParameters);
     }
     return this.http.get<Show[]>(this.baseUrl + showType, {observe: 'response', params}).pipe(
       map(response => {
         this.paginatedResult.result = response.body;
-        if(response.headers.get('Pagination') !== null)
+        if(response.headers.get('Pagination') !== null){
           this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-
+        }
         return this.paginatedResult;
       })
     );
   }
   addRating(rating: Rating){
-    return this.http.post<Show[]>(this.baseUrl + 'add-rating', rating);
+    return this.http.post<Show[]>(`${this.baseUrl}${rating.showId}/rate`, { score: rating.score });
   }
 }
