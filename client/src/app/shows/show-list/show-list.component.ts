@@ -13,7 +13,7 @@ export class ShowListComponent implements OnInit {
   shows: Show[] = [];
   pagination: Pagination;
   pageNumber = 1;
-  pageSize = 3;
+  pageSize = 10;
   searchParameters: string = "";
   showType: string;
   isSearching: boolean = false;
