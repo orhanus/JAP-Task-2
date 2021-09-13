@@ -20,4 +20,4 @@ This repository contains both frontend and backend for a movie rating app called
 
 ## Functionalities API
 * Route to rate movies or shows from 1 to 10
-* Route to get movies or shows with search parameters and pagination where maximum nubmer of items per page is 50
+* Route to get movies or shows with search parameters and pagination, where the maximum number of items per page is 50
