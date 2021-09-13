@@ -4,11 +4,14 @@
   </div>
   <div class="card-body p-2">
     <h5 class="card-title">{{show.title}}</h5>
-    <div class="description w-100 h-50" ellipsis>{{show.description}}</div>
+    <div class="description w-100" ellipsis>{{show.description}}</div>
+    <div class="releaseDate">{{show.releaseDate | date}}</div>
     <div class="rating-container">
       <rating [(ngModel)]="rate" [max]="max" [readonly]="isReadonly"
         (onHover)="hoveringOver($event)" (onLeave)="resetStar()"
-        (click)="onClick()"></rating>
+        (click)="onClick()"
+        style="color: #0275d8;font-size: 20px;"></rating>
+        <label>{{rate | number:'1.1-1'}}</label>
     </div>
     
   </div>

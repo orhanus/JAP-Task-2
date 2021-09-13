@@ -11,14 +11,14 @@ export class ShowCardComponent implements OnInit {
   @Input() show: Show;
   @Output() showRated = new EventEmitter()
 
-  max = 10;
-  rate = 7;
+  max = 5;
+  rate = 1;
   isReadonly = false;
   overStar: number | undefined;
   constructor(private showService: ShowsService) { }
 
   ngOnInit(): void {
-    this.rate = this.show.averageRating;
+    this.rate = this.show.averageRating/2;
   }
  
  
@@ -30,7 +30,7 @@ export class ShowCardComponent implements OnInit {
     this.overStar = void 0;
   }
   onClick() {
-    this.showRated.emit({showId: this.show.id, score: this.overStar});
+    this.showRated.emit({showId: this.show.id, score: this.overStar*2});
   }
 
 }
