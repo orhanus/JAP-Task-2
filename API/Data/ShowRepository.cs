@@ -138,5 +138,22 @@ namespace API.Data
         {
             return await _context.Shows.Include(r => r.Ratings).Include(a => a.Actors).Where(x => x.Id == showId).FirstOrDefaultAsync();
         }
+        public async Task<ICollection<Screening>> GetScreeningsAsync()
+        {
+            return await _context.Screenings.OrderByDescending(s => s.ScreeningTime).ToListAsync();
+        }
+        public async Task<Screening> GetScreeningByIdAsync(int id)
+        {
+            return await _context.Screenings.FindAsync(id);
+        }
+        public async Task AddSpectatorToScreeningAsync(string username, int screeningId)
+        {
+            Screening screening = await _context.Screenings.FindAsync(screeningId);
+            if(screening == null) throw new ArgumentException("Screening doesnt exist");
+            if(screening.ScreeningTime <= DateTime.Now) throw new InvalidOperationException("Screening time is in the past");
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            screening.Spectators.Add(user);
+            user.Screenings.Add(screening);
+        }
     }
 }

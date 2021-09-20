@@ -14,9 +14,9 @@ namespace API.Controllers
     public class AccountController : BaseApiController
     {
         private readonly DataContext _context;
-        private readonly AccountRepository _accountRepository;
+        private readonly IAccountRepository _accountRepository;
         private readonly ITokenService _tokenService;
-        public AccountController(DataContext context, AccountRepository accountRepository, ITokenService tokenService)
+        public AccountController(DataContext context, IAccountRepository accountRepository, ITokenService tokenService)
         {
             _tokenService = tokenService;
             _accountRepository = accountRepository;

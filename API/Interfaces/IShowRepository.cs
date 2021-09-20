@@ -15,5 +15,8 @@ namespace API.Interfaces
         Task<bool> SaveAllAsync();
         Task<double> GetAverageRatingAsync(int id);
         Task<Show> GetShowByIdAsync(int showId);
+        Task<ICollection<Screening>> GetScreeningsAsync();
+        Task<Screening> GetScreeningByIdAsync(int id);
+        Task AddSpectatorToScreeningAsync(string username, int screeningId);
     }
 }

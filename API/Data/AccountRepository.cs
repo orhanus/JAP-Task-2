@@ -4,11 +4,12 @@ using System.Text;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
-    public class AccountRepository
+    public class AccountRepository : IAccountRepository
     {
         private readonly DataContext _context;
         public AccountRepository(DataContext context)
