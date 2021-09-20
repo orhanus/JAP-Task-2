@@ -112,7 +112,7 @@ namespace API.Data
             if (showType != "all")
                 query = query.Where(x => x.ShowType == showType);
 
-            if(showParams.SearchParams != "null")
+            if(showParams.SearchParams != null)
                 query = ApplySearchParameters(query, showParams.SearchParams);
 
             return await PagedList<ShowDto>.CreateAsync(
