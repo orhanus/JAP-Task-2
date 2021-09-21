@@ -17,6 +17,7 @@ namespace API.Interfaces
         Task<Show> GetShowByIdAsync(int showId);
         Task<ICollection<Screening>> GetScreeningsAsync();
         Task<Screening> GetScreeningByIdAsync(int id);
+        Task<Screening> GetScreeningByShowIdAsync(int id);
         Task AddSpectatorToScreeningAsync(string username, int screeningId);
     }
 }

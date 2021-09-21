@@ -8,6 +8,9 @@ using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -45,6 +48,22 @@ namespace API.Controllers
                 return Ok();
             }
             return BadRequest("Unable to add rating");
+        }
+        [Authorize]
+        [HttpPost("{id}/ticket")]
+        public async Task<ActionResult> ReserveTicket(int id)
+        {
+            var username = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            try 
+            {
+                Screening screening = await _showRepository.GetScreeningByShowIdAsync(id);
+                await _showRepository.AddSpectatorToScreeningAsync(username, screening.Id);
+                return Ok();    
+            }
+            catch(Exception e) 
+            {
+                return BadRequest(e.Message);
+            }    
         }
         
     }

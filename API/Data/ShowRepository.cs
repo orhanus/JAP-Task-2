@@ -107,6 +107,13 @@ namespace API.Data
                     CoverImageUrl = x.CoverImageUrl,
                     ShowType = x.ShowType,
                     Actors = x.Actors.Select(actor => new ActorDto { NameLastname = actor.NameLastname }).ToList(),
+                    Screenings = x.Screenings.Select(screening => new ScreeningDto
+                    { 
+                        Id = screening.Id,
+                        MovieTitle = x.Title,
+                        ScreeningTime = screening.ScreeningTime,
+                        Spectators = screening.Spectators.Select(spectator => new SpectatorDto { Username = spectator.Username }).ToList()
+                    }).ToList(),
                     AverageRating = x.Ratings.Average(r => r.Score)
                 });
             if (showType != "all")
@@ -144,16 +151,23 @@ namespace API.Data
         }
         public async Task<Screening> GetScreeningByIdAsync(int id)
         {
-            return await _context.Screenings.FindAsync(id);
+            return await _context.Screenings.Include(m => m.Movie).Include(s => s.Spectators).FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task AddSpectatorToScreeningAsync(string username, int screeningId)
         {
-            Screening screening = await _context.Screenings.FindAsync(screeningId);
-            if(screening == null) throw new ArgumentException("Screening doesnt exist");
+            Screening screening = await GetScreeningByIdAsync(screeningId);
+            if(screening == null) throw new ArgumentException("Screening does not exist");
             if(screening.ScreeningTime <= DateTime.Now) throw new InvalidOperationException("Screening time is in the past");
+            if(screening.Spectators.FirstOrDefault(s => s.Username == username) != null)
+                throw new InvalidOperationException("You already reserved a ticket for this screening");
             User user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
             screening.Spectators.Add(user);
             user.Screenings.Add(screening);
+            await _context.SaveChangesAsync();
+        }
+        public async Task<Screening> GetScreeningByShowIdAsync(int id)
+        {
+            return await _context.Screenings.FirstOrDefaultAsync(s => s.MovieId == id);
         }
     }
 }

@@ -15,5 +15,6 @@ namespace API.Entities
         public string ShowType { get; set; }
         public ICollection<Actor> Actors { get; set; }
         public ICollection<Rating> Ratings { get; set; }
+        public ICollection<Screening> Screenings { get; set; } = new List<Screening>();
     }
 }

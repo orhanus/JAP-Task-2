@@ -13,6 +13,7 @@ namespace API.DTOs
         public string CoverImageUrl { get; set; }
         public string ShowType { get; set; }
         public ICollection<ActorDto> Actors { get; set; }
+        public ICollection<ScreeningDto> Screenings { get; set; }
         public double AverageRating { get; set; }
     }
 }

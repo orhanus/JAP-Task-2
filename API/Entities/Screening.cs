@@ -8,7 +8,7 @@ namespace API.Entities
         public int Id { get; set; }
         public Show Movie { get; set; }
         public int MovieId { get; set; }
-        public ICollection<User> Spectators { get; set; }
+        public ICollection<User> Spectators { get; set; } = new List<User>();
         public DateTime ScreeningTime { get; set; }
     }
 }

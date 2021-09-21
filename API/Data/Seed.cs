@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -27,12 +28,16 @@ namespace API.Data
             var showData = await System.IO.File.ReadAllTextAsync("Data/ShowSeedData.json");
             var shows = JsonSerializer.Deserialize<List<Show>>(showData);
 
+            Random random = new Random();
 
             foreach (var show in shows)
             {
                 show.Actors = await ExistingActorsInDb(show.Actors, context);
+                show.Screenings = new List<Screening> { new Screening { ScreeningTime = DateTime.Now.AddDays(random.Next(-50, 50)) } };
                 context.Shows.Add(show);
             }
+
+            
 
             await context.SaveChangesAsync();
         }
