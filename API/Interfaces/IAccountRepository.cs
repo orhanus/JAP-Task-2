@@ -9,5 +9,6 @@ namespace API.Interfaces
         Task<User> Register(RegisterDto registrationData);
         Task<bool> UserExists(string username);
         Task<User> Login(LoginDto loginData);
+        Task<User> GetUserByUsername(string username);
     }
 }

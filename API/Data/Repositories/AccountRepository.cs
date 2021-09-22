@@ -7,7 +7,7 @@ using API.Entities;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Data
+namespace API.Data.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
@@ -50,6 +50,10 @@ namespace API.Data
                 if (computedHash[i] != user.PasswordHash[i]) throw new ArgumentException("Invalid password");
 
             return user;
+        }
+        public async Task<User> GetUserByUsername(string username)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
     }
 }

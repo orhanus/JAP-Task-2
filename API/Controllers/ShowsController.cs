@@ -16,20 +16,21 @@ namespace API.Controllers
 {
     public class ShowsController : BaseApiController
     {
-        private readonly IShowRepository _showRepository;
         private readonly IMapper _mapper;
-        public ShowsController(IShowRepository showRepository, IMapper mapper)
+        private readonly IShowService _showService;
+        public ShowsController(IShowService showService, IMapper mapper)
         {
+            _showService = showService;
             _mapper = mapper;
-            _showRepository = showRepository;
         }
 
         [HttpGet("{showType}", Name = "GetShows")]
         public async Task<ActionResult<ICollection<ShowDto>>> GetShows(
-            [FromQuery]ShowParams showParams, 
-            [RegularExpression(@"^(all|movie|show)$", ErrorMessage = "Category does not exist")]string showType
-            ) {
-            PagedList<ShowDto> shows = await _showRepository.GetShowsAsync(showParams, showType);
+            [FromQuery] ShowParams showParams,
+            [RegularExpression(@"^(all|movie|show)$", ErrorMessage = "Category does not exist")] string showType
+            )
+        {
+            PagedList<ShowDto> shows = await _showService.GetShowsAsync(showParams, showType);
             Response.AddPaginationHeader(shows.CurrentPage, shows.PageSize, shows.TotalCount, shows.TotalPages);
             return Ok(shows);
         }
@@ -37,34 +38,20 @@ namespace API.Controllers
         [HttpPost("{id}/rate")]
         public async Task<ActionResult> AddRating(int id, RatingDto rating)
         {
-            Show show = await _showRepository.GetShowByIdAsync(id);
-
-            if(show == null) return BadRequest("Show does not exist");
-
-            show.Ratings.Add(new Rating { Score = rating.Score });
-
-            if(await _showRepository.SaveAllAsync())
+            if (await _showService.AddRating(id, rating))
             {
                 return Ok();
             }
             return BadRequest("Unable to add rating");
         }
         [Authorize]
-        [HttpPost("{id}/ticket")]
-        public async Task<ActionResult> ReserveTicket(int id)
+        [HttpPost("{movieId}/ticket")]
+        public async Task<ActionResult> ReserveTicket(int movieId)
         {
             var username = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            try 
-            {
-                Screening screening = await _showRepository.GetScreeningByShowIdAsync(id);
-                await _showRepository.AddSpectatorToScreeningAsync(username, screening.Id);
-                return Ok();    
-            }
-            catch(Exception e) 
-            {
-                return BadRequest(e.Message);
-            }    
+            await _showService.ReserveTicket(movieId, username);
+            return Ok();
         }
-        
+
     }
 }
