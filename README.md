@@ -1,4 +1,4 @@
-# MovieApp-JAP-Task-1
+# MovieApp-JAP-Task-2
 
 This repository contains both frontend and backend for a movie rating app called "Rotten potatoes". Angular was used for the frontend, and .NET 5 for backend.
 
