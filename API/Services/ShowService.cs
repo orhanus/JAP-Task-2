@@ -86,36 +86,13 @@ namespace API.Services
 
         public async Task<PagedList<ShowDto>> GetShowsAsync(ShowParams showParams, string showType)
         {
-            IQueryable<ShowDto> query = _showRepository.GetShowQuery()
-                .Select(x => new ShowDto
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    Description = x.Description,
-                    ReleaseDate = x.ReleaseDate,
-                    CoverImageUrl = x.CoverImageUrl,
-                    ShowType = x.ShowType,
-                    Actors = x.Actors.Select(actor => new ActorDto { NameLastname = actor.NameLastname }).ToList(),
-                    Screenings = x.Screenings.Select(screening => new ScreeningDto
-                    {
-                        Id = screening.Id,
-                        MovieTitle = x.Title,
-                        ScreeningTime = screening.ScreeningTime,
-                        Spectators = screening.Spectators.Select(spectator => new SpectatorDto { Username = spectator.Username }).ToList()
-                    }).ToList(),
-                    AverageRating = x.Ratings.Average(r => r.Score)
-                });
-            if (showType != "all")
-                query = query.Where(x => x.ShowType == showType);
-
-            if (showParams.SearchParams != null)
-                query = ApplySearchParameters(query, showParams.SearchParams);
-
-            return await _showRepository.GetShowsAsync(query, showParams);
+            return await _showRepository.GetShowsAsync(showParams, showType);
         }
 
         public async Task<bool> AddRating(int id, RatingDto rating)
         {
+            if (rating.Score < 1 || rating.Score > 10)
+                throw new ArgumentException("Score must have a value between 1 and 10");
             Show show = await _showRepository.GetShowByIdAsync(id);
 
             if (show == null) return false;
@@ -139,6 +116,48 @@ namespace API.Services
             User user = await _accountRepository.GetUserByUsername(username);
 
             await _showRepository.AddSpectatorToScreeningAsync(user, screening);
+        }
+
+        public Dictionary<string, int> GetKeywordsFromSearchParams(string searchParams)
+        {
+            string[] keywordsArray = { "older than ", "after " };
+            Dictionary<string, int> Keywords = new Dictionary<string, int>();
+            searchParams = searchParams.ToLower();
+
+            int index = searchParams.IndexOf(keywordsArray[1]);
+            if (index != -1)
+            {
+                Keywords.Add("after", Int32.Parse(searchParams.Substring(index + keywordsArray[1].Length, 4)));
+            }
+
+            index = searchParams.IndexOf(keywordsArray[0]);
+            if (index != -1)
+            {
+                Keywords.Add("olderthan", Int32.Parse(searchParams.Substring(index + keywordsArray[0].Length, 1)));
+            }
+
+            bool starFilter = false;
+            try
+            {
+                Regex regex = new Regex("at least ([1-5]) stars");
+                Match match = regex.Match(searchParams);
+                Keywords.Add("atleast", Int32.Parse(match.Groups[1].Value) * 2);
+                starFilter = true;
+            }
+            catch (Exception e) { }
+
+            if (!starFilter)
+            {
+                try
+                {
+                    Regex regex = new Regex("([1-5]) stars");
+                    Match match = regex.Match(searchParams);
+                    Keywords.Add("stars", Int32.Parse(match.Groups[1].Value) * 2);
+                }
+                catch (Exception e) { }
+            }
+
+            return Keywords;
         }
     }
 }

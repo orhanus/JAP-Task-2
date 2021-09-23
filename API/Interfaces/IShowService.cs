@@ -12,5 +12,6 @@ namespace API.Interfaces
         Task<PagedList<ShowDto>> GetShowsAsync(ShowParams showParams, string showType);
         Task<bool> AddRating(int id, RatingDto rating);
         Task ReserveTicket(int movieId, string username);
+        Dictionary<string, int> GetKeywordsFromSearchParams(string searchParams);
     }
 }

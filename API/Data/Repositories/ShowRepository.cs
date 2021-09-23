@@ -22,7 +22,68 @@ namespace API.Data.Repositories
             _mapper = mapper;
             _context = context;
         }
+        private Dictionary<string, int> GetKeywords(string searchParams)
+        {
+            string[] keywordsArray = { "older than ", "after " };
+            Dictionary<string, int> Keywords = new Dictionary<string, int>();
+            searchParams = searchParams.ToLower();
 
+            int index = searchParams.IndexOf(keywordsArray[1]);
+            if (index != -1)
+            {
+                Keywords.Add("after", Int32.Parse(searchParams.Substring(index + keywordsArray[1].Length, 4)));
+            }
+
+            index = searchParams.IndexOf(keywordsArray[0]);
+            if (index != -1)
+            {
+                Keywords.Add("olderthan", Int32.Parse(searchParams.Substring(index + keywordsArray[0].Length, 1)));
+            }
+
+            bool starFilter = false;
+            try
+            {
+                Regex regex = new Regex("at least ([1-5]) stars");
+                Match match = regex.Match(searchParams);
+                Keywords.Add("atleast", Int32.Parse(match.Groups[1].Value) * 2);
+                starFilter = true;
+            }
+            catch (Exception e) { }
+
+            if (!starFilter)
+            {
+                try
+                {
+                    Regex regex = new Regex("([1-5]) stars");
+                    Match match = regex.Match(searchParams);
+                    Keywords.Add("stars", Int32.Parse(match.Groups[1].Value) * 2);
+                }
+                catch (Exception e) { }
+            }
+
+            return Keywords;
+        }
+
+        private IQueryable<ShowDto> ApplySearchParameters(IQueryable<ShowDto> query, string searchParams)
+        {
+            Dictionary<string, int> keywords = GetKeywords(searchParams);
+            if (keywords.Count == 0)
+                query = query.Where(obj => obj.Title.ToLower().Contains(searchParams.ToLower())
+                    || obj.Description.ToLower().Contains(searchParams.ToLower()));
+            else
+            {
+                if (keywords.ContainsKey("olderthan"))
+                    query = query.Where(show => DateTime.Now.Year - show.ReleaseDate.Year >= keywords["olderthan"]);
+                if (keywords.ContainsKey("after"))
+                    query = query.Where(show => show.ReleaseDate.Year >= keywords["after"]);
+                if (keywords.ContainsKey("atleast"))
+                    query = query.Where(show => show.AverageRating >= keywords["atleast"]);
+                if (keywords.ContainsKey("stars"))
+                    query = query.Where(show => (int)show.AverageRating == keywords["stars"]);
+            }
+
+            return query;
+        }
         public async Task<Actor> GetActorByNameAsync(string name)
         {
             return await _context.Actors.SingleOrDefaultAsync(x => x.NameLastname == name);
@@ -34,14 +95,35 @@ namespace API.Data.Repositories
         }
         
 
-        
-        public IQueryable<Show> GetShowQuery()
-        {
-            return _context.Shows.AsQueryable().AsNoTracking();
-        }
+       
 
-        public async Task<PagedList<ShowDto>> GetShowsAsync(IQueryable<ShowDto> query, ShowParams showParams)
+        public async Task<PagedList<ShowDto>> GetShowsAsync(ShowParams showParams, string showType)
         {
+            IQueryable<ShowDto> query = _context.Shows.AsQueryable().AsNoTracking()
+                .Select(x => new ShowDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Description = x.Description,
+                    ReleaseDate = x.ReleaseDate,
+                    CoverImageUrl = x.CoverImageUrl,
+                    ShowType = x.ShowType,
+                    Actors = x.Actors.Select(actor => new ActorDto { NameLastname = actor.NameLastname }).ToList(),
+                    Screenings = x.Screenings.Select(screening => new ScreeningDto
+                    {
+                        Id = screening.Id,
+                        MovieTitle = x.Title,
+                        ScreeningTime = screening.ScreeningTime,
+                        Spectators = screening.Spectators.Select(spectator => new SpectatorDto { Username = spectator.Username }).ToList()
+                    }).ToList(),
+                    AverageRating = x.Ratings.Average(r => r.Score)
+                });
+            if (showType != "all")
+                query = query.Where(x => x.ShowType == showType);
+
+            if (showParams.SearchParams != null)
+                query = ApplySearchParameters(query, showParams.SearchParams);
+
             return await PagedList<ShowDto>.CreateAsync(
                 query.OrderByDescending(r => r.AverageRating), showParams.PageNumber, showParams.PageSize
             );
@@ -83,6 +165,12 @@ namespace API.Data.Repositories
         {
             return await _context.Screenings.FirstOrDefaultAsync(s => s.MovieId == id);
         }
-        
+
+        public async Task<ShowDto> GetShowDtoByIdAsync(int showId)
+        {
+            return _mapper.Map<ShowDto>(
+                await _context.Shows.Include(r => r.Ratings).Include(a => a.Actors).Include(s => s.Screenings)
+                .FirstOrDefaultAsync(x => x.Id == showId));
+        }
     }
 }

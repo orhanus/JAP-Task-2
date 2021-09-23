@@ -16,5 +16,14 @@ namespace API.Entities
         public ICollection<Actor> Actors { get; set; }
         public ICollection<Rating> Ratings { get; set; }
         public ICollection<Screening> Screenings { get; set; } = new List<Screening>();
+
+        public double GetAverageRating()
+        {
+            double scoreSum = 0;
+            foreach (var rating in Ratings)
+                scoreSum += rating.Score;
+
+            return  Ratings.Count == 0 ? 0 : scoreSum / Ratings.Count;
+        }
     }
 }
