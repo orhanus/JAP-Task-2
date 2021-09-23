@@ -10,7 +10,7 @@ namespace API.Interfaces
     public interface IShowRepository
     {
         void Update(Show show);
-        Task<PagedList<ShowDto>> GetShowsAsync(ShowParams showParams, string showType);
+        Task<PagedList<ShowDto>> GetShowsAsync(ShowParams showParams, string showType, Dictionary<string, int> keywords);
         Task<Actor> GetActorByNameAsync(string name);
         Task<ICollection<Actor>> GetActorsAsync();
         Task<bool> SaveAllAsync();

@@ -64,9 +64,8 @@ namespace API.Data.Repositories
             return Keywords;
         }
 
-        private IQueryable<ShowDto> ApplySearchParameters(IQueryable<ShowDto> query, string searchParams)
+        private IQueryable<ShowDto> ApplySearchParameters(IQueryable<ShowDto> query, string searchParams, Dictionary<string,int> keywords)
         {
-            Dictionary<string, int> keywords = GetKeywords(searchParams);
             if (keywords.Count == 0)
                 query = query.Where(obj => obj.Title.ToLower().Contains(searchParams.ToLower())
                     || obj.Description.ToLower().Contains(searchParams.ToLower()));
@@ -97,7 +96,7 @@ namespace API.Data.Repositories
 
        
 
-        public async Task<PagedList<ShowDto>> GetShowsAsync(ShowParams showParams, string showType)
+        public async Task<PagedList<ShowDto>> GetShowsAsync(ShowParams showParams, string showType, Dictionary<string, int> keywords)
         {
             IQueryable<ShowDto> query = _context.Shows.AsQueryable().AsNoTracking()
                 .Select(x => new ShowDto
@@ -122,7 +121,7 @@ namespace API.Data.Repositories
                 query = query.Where(x => x.ShowType == showType);
 
             if (showParams.SearchParams != null)
-                query = ApplySearchParameters(query, showParams.SearchParams);
+                query = ApplySearchParameters(query, showParams.SearchParams, keywords);
 
             return await PagedList<ShowDto>.CreateAsync(
                 query.OrderByDescending(r => r.AverageRating), showParams.PageNumber, showParams.PageSize

@@ -86,7 +86,7 @@ namespace API.Services
 
         public async Task<PagedList<ShowDto>> GetShowsAsync(ShowParams showParams, string showType)
         {
-            return await _showRepository.GetShowsAsync(showParams, showType);
+            return await _showRepository.GetShowsAsync(showParams, showType, GetKeywords(showParams.SearchParams));
         }
 
         public async Task<bool> AddRating(int id, RatingDto rating)
