@@ -4,7 +4,6 @@ This repository contains both frontend and backend for a movie rating app called
 
 ## Setup instructions
 * Clone this repository to your local machine.
-* Run ```npm install``` in "client" directory to install all the needed packages.
 * Backend uses SqlServer database. Make sure you have it installed. Database creation and seeding of data is done automatically when the application is being run.
 * Inside the "API' directory run ```dotnet watch run``` or ```dotnet run``` in the terminal to start web api.
 * To start the client run ```ng serve``` inside the "client" directory
